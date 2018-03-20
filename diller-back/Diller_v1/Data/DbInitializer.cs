@@ -67,6 +67,16 @@ namespace Diller.Data
                 context.Client.Add(c);
             }
             context.SaveChanges();
+
+            var order = new Order
+            {
+                CarId = 1,
+                client = new Client { Email = "qwe@q.com", Name = "test tester", Phone = "+3809313911" },
+                CreateDate = new DateTime(),
+                manager = new Manager { Email = "qwe@q.com", Name = "test tester", Phone = "+3809313911" },
+                Sum = 1123
+            };
+            context.SaveChanges();
         }
     }
 }

@@ -11,9 +11,10 @@ using System;
 namespace Diller_v1.Migrations
 {
     [DbContext(typeof(DillerContext))]
-    partial class DillerContextModelSnapshot : ModelSnapshot
+    [Migration("20180320083051_ThirdInitial")]
+    partial class ThirdInitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

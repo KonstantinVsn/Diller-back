@@ -25,7 +25,7 @@ namespace Diller.Controllers
         [HttpGet]
         public IEnumerable<Order> GetOrder()
         {
-            return _context.Order;
+            return _context.Order.Include(m => m.manager).Include(c => c.client);
         }
 
         // GET: api/Orders/5
