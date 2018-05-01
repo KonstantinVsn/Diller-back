@@ -36,7 +36,6 @@ D:\konstantin\Projects\Diller-back\diller-back\Diller_v1\bin\Debug\netcoreapp2.0
 D:\konstantin\Projects\Diller-back\diller-back\Diller_v1\bin\Debug\netcoreapp2.0\Diller_v1.runtimeconfig.dev.json
 D:\konstantin\Projects\Diller-back\diller-back\Diller_v1\bin\Debug\netcoreapp2.0\Diller_v1.dll
 D:\konstantin\Projects\Diller-back\diller-back\Diller_v1\bin\Debug\netcoreapp2.0\Diller_v1.pdb
-D:\konstantin\Projects\Diller-back\diller-back\Diller_v1\obj\Debug\netcoreapp2.0\Diller_v1.csprojResolveAssemblyReference.cache
 D:\konstantin\Projects\Diller-back\diller-back\Diller_v1\obj\Debug\netcoreapp2.0\Diller_v1.csproj.CoreCompileInputs.cache
 D:\konstantin\Projects\Diller-back\diller-back\Diller_v1\obj\Debug\netcoreapp2.0\Diller_v1.AssemblyInfoInputs.cache
 D:\konstantin\Projects\Diller-back\diller-back\Diller_v1\obj\Debug\netcoreapp2.0\Diller_v1.AssemblyInfo.cs

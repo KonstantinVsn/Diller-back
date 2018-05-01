@@ -31,8 +31,6 @@ namespace Diller.Data
             modelBuilder.Entity<Manager>().ToTable("Manager");
             modelBuilder.Entity<AutoCategory>().ToTable("AutoCategory");
             modelBuilder.Entity<Order>().ToTable("Order");
-
-
         }
     }
 }
