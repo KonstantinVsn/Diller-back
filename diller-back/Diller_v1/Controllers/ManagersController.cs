@@ -14,18 +14,18 @@ namespace Diller.Controllers
     [Route("api/Managers")]
     public class ManagersController : Controller
     {
-        private readonly DillerContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ManagersController(DillerContext context)
+        public ManagersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: api/Managers
         [HttpGet]
-        public IEnumerable<Manager> GetManager()
+        public IEnumerable<Person> GetManager()
         {
-            return _context.Manager;
+            return _context.Persons.Where(x => x.Identity.Role == "Manager");
         }
 
         // GET: api/Managers/5
@@ -37,7 +37,7 @@ namespace Diller.Controllers
                 return BadRequest(ModelState);
             }
 
-            var manager = await _context.Manager.SingleOrDefaultAsync(m => m.Id == id);
+            var manager = await _context.Persons.SingleOrDefaultAsync(m => m.Id == id);
 
             if (manager == null)
             {
@@ -49,7 +49,7 @@ namespace Diller.Controllers
 
         // PUT: api/Managers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutManager([FromRoute] int id, [FromBody] Manager manager)
+        public async Task<IActionResult> PutManager([FromRoute] int id, [FromBody] Person manager)
         {
             if (!ModelState.IsValid)
             {
@@ -84,14 +84,14 @@ namespace Diller.Controllers
 
         // POST: api/Managers
         [HttpPost]
-        public async Task<IActionResult> PostManager([FromBody] Manager manager)
+        public async Task<IActionResult> PostManager([FromBody] Person manager)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Manager.Add(manager);
+            _context.Persons.Add(manager);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetManager", new { id = manager.Id }, manager);
@@ -106,13 +106,13 @@ namespace Diller.Controllers
                 return BadRequest(ModelState);
             }
 
-            var manager = await _context.Manager.SingleOrDefaultAsync(m => m.Id == id);
+            var manager = await _context.Persons.SingleOrDefaultAsync(m => m.Id == id);
             if (manager == null)
             {
                 return NotFound();
             }
 
-            _context.Manager.Remove(manager);
+            _context.Persons.Remove(manager);
             await _context.SaveChangesAsync();
 
             return Ok(manager);
@@ -120,7 +120,7 @@ namespace Diller.Controllers
 
         private bool ManagerExists(int id)
         {
-            return _context.Manager.Any(e => e.Id == id);
+            return _context.Persons.Any(e => e.Id == id);
         }
     }
 }

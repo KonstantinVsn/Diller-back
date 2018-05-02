@@ -12,9 +12,9 @@ namespace Diller.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly DillerContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ClientsController(DillerContext context)
+        public ClientsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,7 +22,7 @@ namespace Diller.Controllers
         // GET: Clients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Client.ToListAsync());
+            return View(await _context.Persons.Where(x => x.Identity.Role == "Client").ToListAsync());
         }
 
         // GET: Clients/Details/5
@@ -33,7 +33,7 @@ namespace Diller.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Client
+            var client = await _context.Persons
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (client == null)
             {
@@ -54,7 +54,7 @@ namespace Diller.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone")] Client client)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,Phone")] Person client)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace Diller.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Client.SingleOrDefaultAsync(m => m.Id == id);
+            var client = await _context.Persons.SingleOrDefaultAsync(m => m.Id == id);
             if (client == null)
             {
                 return NotFound();
@@ -86,7 +86,7 @@ namespace Diller.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Phone")] Client client)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Phone")] Person client)
         {
             if (id != client.Id)
             {
@@ -124,7 +124,7 @@ namespace Diller.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Client
+            var client = await _context.Persons
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (client == null)
             {
@@ -139,15 +139,15 @@ namespace Diller.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var client = await _context.Client.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Client.Remove(client);
+            var client = await _context.Persons.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Persons.Remove(client);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ClientExists(int id)
         {
-            return _context.Client.Any(e => e.Id == id);
+            return _context.Persons.Any(e => e.Id == id);
         }
     }
 }

@@ -14,9 +14,9 @@ namespace Diller.Controllers
     [Route("api/Orders")]
     public class OrdersController : Controller
     {
-        private readonly DillerContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public OrdersController(DillerContext context)
+        public OrdersController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -25,7 +25,7 @@ namespace Diller.Controllers
         [HttpGet]
         public IEnumerable<Order> GetOrder()
         {
-            return _context.Order.Include(m => m.manager).Include(c => c.client);
+            return _context.Order.Include(m => m.Manager).Include(c => c.Client);
         }
 
         // GET: api/Orders/5

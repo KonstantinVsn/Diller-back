@@ -14,9 +14,9 @@ namespace Diller.Controllers
     [Route("api/AutoCategories")]
     public class AutoCategoriesController : Controller
     {
-        private readonly DillerContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public AutoCategoriesController(DillerContext context)
+        public AutoCategoriesController(ApplicationDbContext context)
         {
             _context = context;
         }

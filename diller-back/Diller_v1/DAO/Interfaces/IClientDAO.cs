@@ -8,16 +8,16 @@ namespace Diller.DAO.Interfaces
 {
     public interface IClientDAO
     {
-        void Save(Client client);
+        void Save(Person client);
 
-        void Update(Client client);
+        void Update(Person client);
 
-        void Delete(Client client);
+        void Delete(Person client);
 
-        Client GetById(int id);
+        Person GetById(int id);
 
         int GetAllCount();
 
-        ICollection<Client> GetAll();
+        ICollection<Person> GetAll();
     }
 }

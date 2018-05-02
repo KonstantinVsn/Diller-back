@@ -11,44 +11,44 @@ namespace Diller.DAO.Implementations
 {
     public class ClientDAO : IClientDAO
     {
-        private readonly DillerContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ClientDAO(DillerContext context)
+        public ClientDAO(ApplicationDbContext context)
         {
             _context = context;
         }
-        public void Save( Client client)
+        public void Save(Person client)
         {
-            _context.Client.Add(client);
+            _context.Persons.Add(client);
             _context.SaveChanges();
 
         }
 
-        public void Update( Client client)
+        public void Update(Person client)
         {
             _context.SaveChanges();
         }
 
-        public void Delete( Client client)
+        public void Delete(Person client)
         {
-            _context.Client.Remove(client);
+            _context.Persons.Remove(client);
             _context.SaveChanges();
 
         }
 
-        public  Client GetById(int id)
+        public Person GetById(int id)
         {
-            return _context.Client.SingleOrDefault(e => e.Id == id);
+            return _context.Persons.SingleOrDefault(e => e.Id == id);
         }
 
         public int GetAllCount()
         {
-            return _context.Client.Count();
+            return _context.Persons.Count();
         }
 
-        public ICollection< Client> GetAll()
+        public ICollection<Person> GetAll()
         {
-            return _context.Client.ToList();
+            return _context.Persons.ToList();
         }
     }
 }

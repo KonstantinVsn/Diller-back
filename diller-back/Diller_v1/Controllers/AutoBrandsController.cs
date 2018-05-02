@@ -14,9 +14,9 @@ namespace Diller.Controllers
     [Route("api/AutoBrands")]
     public class AutoBrandsController : Controller
     {
-        private readonly DillerContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public AutoBrandsController(DillerContext context)
+        public AutoBrandsController(ApplicationDbContext context)
         {
             _context = context;
         }

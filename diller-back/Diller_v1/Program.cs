@@ -24,8 +24,8 @@ namespace Diller
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<DillerContext>();
-                    DbInitializer.Initialize(context);
+                    var appContext = services.GetRequiredService<ApplicationDbContext>();
+                    DbInitializer.Initialize(appContext);
                 }
                 catch (Exception ex)
                 {

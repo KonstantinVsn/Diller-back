@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Diller.DAO.Implementations
 {
-    public class AutoBrandDs
+    public class AutoBrandDI
     {
     }
 }

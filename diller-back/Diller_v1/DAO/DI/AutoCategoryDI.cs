@@ -10,30 +10,30 @@ namespace Diller_v1.DAO.DI
 {
     public class ClientDI
     {
-        private IGenericDAO<Client> _clientDao;
-        public ClientDI(IGenericDAO<Client> clientDao)
+        private IGenericDAO<Person> _clientDao;
+        public ClientDI(IGenericDAO<Person> clientDao)
         {
             _clientDao = clientDao;
         }
 
-        public void Save(Client client)
+        public void Save(Person client)
         {
             _clientDao.Save(client);
         }
 
-        public void Update(Client client)
+        public void Update(Person client)
         {
             _clientDao.Update(client);
         }
 
-        public void Delete(Client client)
+        public void Delete(Person client)
         {
             _clientDao.Delete(client);
         }
 
-        public Client GetById(int id)
+        public Person GetById(int id)
         {
-            return new Client();
+            return new Person();
         }
 
         public int GetAllCount()
@@ -41,9 +41,9 @@ namespace Diller_v1.DAO.DI
             return 1;
         }
 
-        public ICollection<Client> GetAll()
+        public ICollection<Person> GetAll()
         {
-            return new List<Client>();
+            return new List<Person>();
         }
     }
 }
