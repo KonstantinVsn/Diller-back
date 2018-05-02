@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Diller.Models;
 using Diller.Data;
+using System.Net.Http;
+using Diller.Models.ViewModels;
 
 namespace Diller.Controllers
 {
@@ -23,9 +25,19 @@ namespace Diller.Controllers
 
         // GET: api/Managers
         [HttpGet]
-        public IEnumerable<Person> GetManager()
+        public IEnumerable<PersonViewModel> GetManager()
         {
-            return _context.Persons.Where(x => x.Identity.Role == "Manager");
+            var results = _context.Persons.ToList();
+            var result = _context.Persons.Where(x => x.Identity.Role == "Manager").Select(p => new PersonViewModel()
+            {
+                Email = p.Identity.Email,
+                Id = p.Id,
+                FirstName = p.Identity.FirstName,
+                LastName = p.Identity.LastName,
+                Role = p.Identity.Role,
+                PhoneNumber = p.Identity.PhoneNumber
+            }).ToList();
+            return result;
         }
 
         // GET: api/Managers/5
