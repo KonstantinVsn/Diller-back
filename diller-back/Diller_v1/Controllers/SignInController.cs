@@ -14,14 +14,14 @@ using Diller.Models.Helpers;
 namespace Diller.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Account")]
-    public class AccountController : Controller
+    [Route("api/signin")]
+    public class SignInController : Controller
     {
         private readonly ApplicationDbContext _appDbContext;
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
 
-        public AccountController(IMapper mapper, UserManager<AppUser> userManager, ApplicationDbContext appDbContext)
+        public SignInController(IMapper mapper, UserManager<AppUser> userManager, ApplicationDbContext appDbContext)
         {
             _mapper = mapper;
             _userManager = userManager;
@@ -46,7 +46,7 @@ namespace Diller.Controllers
             await _appDbContext.Persons.AddAsync(new Person { IdentityId = userIdentity.Id});
             await _appDbContext.SaveChangesAsync();
 
-            return new OkObjectResult("Account created");
+            return new OkResult();
         }
     }
 }
