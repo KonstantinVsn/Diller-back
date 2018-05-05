@@ -16,7 +16,7 @@ using Diller.Models.ViewModels;
 
 namespace Diller.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
