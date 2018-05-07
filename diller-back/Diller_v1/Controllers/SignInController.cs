@@ -46,7 +46,7 @@ namespace Diller.Controllers
             await _appDbContext.Persons.AddAsync(new Person { IdentityId = userIdentity.Id});
             await _appDbContext.SaveChangesAsync();
 
-            return new OkResult();
+            return new JsonResult("User created!");
         }
     }
 }

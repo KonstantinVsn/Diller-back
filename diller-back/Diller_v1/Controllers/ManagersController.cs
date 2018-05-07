@@ -9,6 +9,9 @@ using Diller.Models;
 using Diller.Data;
 using System.Net.Http;
 using Diller.Models.ViewModels;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Diller.Models.Helpers;
 
 namespace Diller.Controllers
 {
@@ -16,19 +19,23 @@ namespace Diller.Controllers
     [Route("api/Managers")]
     public class ManagersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly ApplicationDbContext _appDbContext;
 
-        public ManagersController(ApplicationDbContext context)
+        public ManagersController(ApplicationDbContext context, UserManager<AppUser> userManager, IMapper mapper, ApplicationDbContext appDbContext)
         {
-            _context = context;
+            _mapper = mapper;
+            _userManager = userManager;
+            _appDbContext = appDbContext;
         }
 
         // GET: api/Managers
         [HttpGet]
         public IEnumerable<PersonViewModel> GetManager()
         {
-            var results = _context.Persons.ToList();
-            var result = _context.Persons.Where(x => x.Identity.Role == "Manager").Select(p => new PersonViewModel()
+            var results = _appDbContext.Persons.ToList();
+            var result = _appDbContext.Persons.Where(x => x.Identity.Role == "Manager").Select(p => new PersonViewModel()
             {
                 Email = p.Identity.Email,
                 Id = p.Id,
@@ -49,7 +56,7 @@ namespace Diller.Controllers
                 return BadRequest(ModelState);
             }
 
-            var manager = await _context.Persons.SingleOrDefaultAsync(m => m.Id == id);
+            var manager = await _appDbContext.Persons.SingleOrDefaultAsync(m => m.Id == id);
 
             if (manager == null)
             {
@@ -61,7 +68,7 @@ namespace Diller.Controllers
 
         // PUT: api/Managers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutManager([FromRoute] int id, [FromBody] Person manager)
+        public async Task<IActionResult> PutManager([FromRoute] int id, [FromBody] Manager manager)
         {
             if (!ModelState.IsValid)
             {
@@ -72,67 +79,75 @@ namespace Diller.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(manager).State = EntityState.Modified;
+            //var baseManager = _appDbContext.Persons.Where(x => x.Id == manager.Id).FirstOrDefault();
+            var baseManager = _appDbContext.Persons.Where(x => x.Id == manager.Id).Include(c => c.Identity).FirstOrDefault();
+            baseManager.Identity.Email = manager.Email;
+            baseManager.Identity.PhoneNumber = manager.PhoneNumber;
+            baseManager.Identity.Role = manager.Role;
+            baseManager.Identity.FirstName = manager.FirstName;
+            baseManager.Identity.LastName = manager.LastName;
 
             try
             {
-                await _context.SaveChangesAsync();
+                var result = await _appDbContext.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch(Exception ex)
             {
-                if (!ManagerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return new BadRequestObjectResult(ex.Message);
             }
 
-            return NoContent();
+            return new JsonResult("Manager updated!");
         }
 
         // POST: api/Managers
         [HttpPost]
-        public async Task<IActionResult> PostManager([FromBody] Person manager)
+        public async Task<IActionResult> PostManager([FromBody] Manager manager)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Persons.Add(manager);
-            await _context.SaveChangesAsync();
+            var userIdentity = _mapper.Map<AppUser>(manager);
+            userIdentity.Id = null;
+            userIdentity.Role = "Manager";
+            var result = await _userManager.CreateAsync(userIdentity, "12345678");
 
-            return CreatedAtAction("GetManager", new { id = manager.Id }, manager);
+            if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+
+            await _appDbContext.Persons.AddAsync(new Person { IdentityId = userIdentity.Id });
+            await _appDbContext.SaveChangesAsync();
+
+            return new JsonResult("Manager created!");
+
+            //return CreatedAtAction("GetManager", new { id = manager.Id }, manager);
         }
 
         // DELETE: api/Managers/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteManager([FromRoute] int id)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var manager = await _context.Persons.SingleOrDefaultAsync(m => m.Id == id);
+            var manager = await _appDbContext.Persons.SingleOrDefaultAsync(m => m.Id == id);
             if (manager == null)
             {
                 return NotFound();
             }
 
-            _context.Persons.Remove(manager);
-            await _context.SaveChangesAsync();
+            _appDbContext.Persons.Remove(manager);
+            await _appDbContext.SaveChangesAsync();
 
             return Ok(manager);
         }
 
         private bool ManagerExists(int id)
         {
-            return _context.Persons.Any(e => e.Id == id);
+            return _appDbContext.Persons.Any(e => e.Id == id);
         }
     }
 }
