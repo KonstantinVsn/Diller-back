@@ -11,7 +11,7 @@ namespace Diller.Models
         public int Id { get; set; }
         public Person Manager { get; set; }
         public Person Client { get; set; }
-        public int CarId { get; set; }
+        public Car Car { get; set; }
         public DateTime CreateDate { get; set; }
         public decimal Sum { get; set; }
     }

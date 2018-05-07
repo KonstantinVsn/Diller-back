@@ -86,7 +86,7 @@ namespace Diller_v1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AutoBrand");
+                    b.ToTable("AutoBrands");
                 });
 
             modelBuilder.Entity("Diller.Models.AutoCategory", b =>
@@ -98,7 +98,39 @@ namespace Diller_v1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AutoCategory");
+                    b.ToTable("AutoCategories");
+                });
+
+            modelBuilder.Entity("Diller.Models.Car", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("BrandId");
+
+                    b.Property<int?>("CategoryId");
+
+                    b.Property<string>("Color");
+
+                    b.Property<string>("EnVolume");
+
+                    b.Property<string>("Height");
+
+                    b.Property<string>("Length");
+
+                    b.Property<int>("MaxSpeed");
+
+                    b.Property<string>("Width");
+
+                    b.Property<int>("Year");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("Diller.Models.Order", b =>
@@ -106,7 +138,7 @@ namespace Diller_v1.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CarId");
+                    b.Property<int?>("CarId");
 
                     b.Property<int?>("ClientId");
 
@@ -117,6 +149,8 @@ namespace Diller_v1.Migrations
                     b.Property<decimal>("Sum");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CarId");
 
                     b.HasIndex("ClientId");
 
@@ -247,8 +281,23 @@ namespace Diller_v1.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Diller.Models.Car", b =>
+                {
+                    b.HasOne("Diller.Models.AutoBrand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId");
+
+                    b.HasOne("Diller.Models.AutoCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+                });
+
             modelBuilder.Entity("Diller.Models.Order", b =>
                 {
+                    b.HasOne("Diller.Models.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId");
+
                     b.HasOne("Diller.Models.Person", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId");

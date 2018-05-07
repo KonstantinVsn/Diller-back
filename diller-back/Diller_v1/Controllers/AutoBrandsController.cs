@@ -25,7 +25,7 @@ namespace Diller.Controllers
         [HttpGet]
         public IEnumerable<AutoBrand> GetAutoBrand()
         {
-            return _context.AutoBrand;
+            return _context.AutoBrands;
         }
 
         // GET: api/AutoBrands/5
@@ -37,7 +37,7 @@ namespace Diller.Controllers
                 return BadRequest(ModelState);
             }
 
-            var autoBrand = await _context.AutoBrand.SingleOrDefaultAsync(m => m.Id == id);
+            var autoBrand = await _context.AutoBrands.SingleOrDefaultAsync(m => m.Id == id);
 
             if (autoBrand == null)
             {
@@ -91,7 +91,7 @@ namespace Diller.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.AutoBrand.Add(autoBrand);
+            _context.AutoBrands.Add(autoBrand);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAutoBrand", new { id = autoBrand.Id }, autoBrand);
@@ -106,13 +106,13 @@ namespace Diller.Controllers
                 return BadRequest(ModelState);
             }
 
-            var autoBrand = await _context.AutoBrand.SingleOrDefaultAsync(m => m.Id == id);
+            var autoBrand = await _context.AutoBrands.SingleOrDefaultAsync(m => m.Id == id);
             if (autoBrand == null)
             {
                 return NotFound();
             }
 
-            _context.AutoBrand.Remove(autoBrand);
+            _context.AutoBrands.Remove(autoBrand);
             await _context.SaveChangesAsync();
 
             return Ok(autoBrand);
@@ -120,7 +120,7 @@ namespace Diller.Controllers
 
         private bool AutoBrandExists(int id)
         {
-            return _context.AutoBrand.Any(e => e.Id == id);
+            return _context.AutoBrands.Any(e => e.Id == id);
         }
     }
 }

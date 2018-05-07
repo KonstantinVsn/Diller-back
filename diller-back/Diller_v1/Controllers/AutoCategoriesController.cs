@@ -25,7 +25,7 @@ namespace Diller.Controllers
         [HttpGet]
         public IEnumerable<AutoCategory> GetAutoCategory()
         {
-            return _context.AutoCategory;
+            return _context.AutoCategories;
         }
 
         // GET: api/AutoCategories/5
@@ -37,7 +37,7 @@ namespace Diller.Controllers
                 return BadRequest(ModelState);
             }
 
-            var autoCategory = await _context.AutoCategory.SingleOrDefaultAsync(m => m.Id == id);
+            var autoCategory = await _context.AutoCategories.SingleOrDefaultAsync(m => m.Id == id);
 
             if (autoCategory == null)
             {
@@ -91,7 +91,7 @@ namespace Diller.Controllers
                 return BadRequest(ModelState);
             }
 
-            _context.AutoCategory.Add(autoCategory);
+            _context.AutoCategories.Add(autoCategory);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetAutoCategory", new { id = autoCategory.Id }, autoCategory);
@@ -106,13 +106,13 @@ namespace Diller.Controllers
                 return BadRequest(ModelState);
             }
 
-            var autoCategory = await _context.AutoCategory.SingleOrDefaultAsync(m => m.Id == id);
+            var autoCategory = await _context.AutoCategories.SingleOrDefaultAsync(m => m.Id == id);
             if (autoCategory == null)
             {
                 return NotFound();
             }
 
-            _context.AutoCategory.Remove(autoCategory);
+            _context.AutoCategories.Remove(autoCategory);
             await _context.SaveChangesAsync();
 
             return Ok(autoCategory);
@@ -120,7 +120,7 @@ namespace Diller.Controllers
 
         private bool AutoCategoryExists(int id)
         {
-            return _context.AutoCategory.Any(e => e.Id == id);
+            return _context.AutoCategories.Any(e => e.Id == id);
         }
     }
 }

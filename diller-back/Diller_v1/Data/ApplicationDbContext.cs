@@ -16,9 +16,11 @@ namespace Diller.Data
         }
 
         public DbSet<Person> Persons { get; set; }
-        public DbSet<AutoBrand> AutoBrand { get; set; }
-        public DbSet<AutoCategory> AutoCategory { get; set; }
+        public DbSet<AutoBrand> AutoBrands { get; set; }
+        public DbSet<AutoCategory> AutoCategories { get; set; }
         public DbSet<Order> Order { get; set; }
+        public DbSet<Car> Cars { get; set; }
+
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
